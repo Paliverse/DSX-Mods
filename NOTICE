@@ -1,0 +1,12 @@
+DSX Mod SDK kit and DSX mod catalog tools
+Copyright 2026 Paliverse
+
+This product includes the DSX Mod SDK by Paliverse
+(https://github.com/Paliverse/DSX-Mods).
+
+DSX is Paliverse's controller app (https://store.steampowered.com/app/1812620/DSX/).
+The catalog entries in mods/ are not covered by LICENSE; their text belongs to their submitters.
+Game names, logos and cover art belong to their publishers and owners. They are shown only to
+identify the game a mod is for, imply no endorsement, and are not covered by LICENSE.
+Rights holders can ask for removal with the removal request issue form (removal-request.yml).
+The DSX name and logo are not licensed by this file or by LICENSE; see TRADEMARKS.md.

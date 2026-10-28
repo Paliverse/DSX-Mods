@@ -1,0 +1,97 @@
+# I label a submit or update issue 'accepted': its form becomes mods/<id>/ on a branch and a pull request.
+# The issue text is read as JSON data by tools/catalog.py; it is never put into a shell command.
+# Two jobs: 'prepare' decodes the uploaded cover (untrusted image) with a read-only token and no stored credential;
+# 'pr' only commits the result and opens the pull request, decoding nothing.
+# A pull request opened with GITHUB_TOKEN does not start other workflows: 'prepare' validates first, and I
+# close and reopen the pull request to run 'validate' (the required check) before merging.
+name: intake
+
+on:
+  issues:
+    types: [labeled]
+
+permissions: {}
+
+jobs:
+  prepare:
+    if: >-
+      github.event.label.name == 'accepted' &&
+      (contains(github.event.issue.labels.*.name, 'submission') || contains(github.event.issue.labels.*.name, 'update'))
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: read
+    outputs:
+      id: ${{ steps.intake.outputs.id }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
+        with:
+          python-version: "3.12"
+      - run: python -m pip install --require-hashes -r tools/requirements.txt
+      - id: intake
+        name: Form to mods/<id>/
+        run: python tools/catalog.py intake "$GITHUB_EVENT_PATH"
+      - name: Rules
+        run: python tools/catalog.py validate
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: mod
+          path: mods/${{ steps.intake.outputs.id }}/
+          if-no-files-found: error
+
+  pr:
+    needs: prepare
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+      - name: Mod id
+        env:
+          ID: ${{ needs.prepare.outputs.id }}
+        run: '[[ "$ID" =~ ^[a-z0-9][a-z0-9-]{1,46}[a-z0-9]$ ]]'
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - name: Clear the folder for the prepared files
+        env:
+          ID: ${{ needs.prepare.outputs.id }}
+        run: rm -rf -- "mods/$ID"
+      - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
+        with:
+          name: mod
+          path: mods/${{ needs.prepare.outputs.id }}
+      - name: Pull request
+        env:
+          GH_TOKEN: ${{ github.token }}
+          ID: ${{ needs.prepare.outputs.id }}
+          ISSUE: ${{ github.event.issue.number }}
+          AUTHOR: ${{ github.event.issue.user.login }}
+        run: |
+          extra=$(find "mods/$ID" -mindepth 1 ! -name mod.json ! -name cover.jpg ! -name cover.jpeg ! -name cover.png ! -name cover.webp ! -name cover.avif -print -quit)
+          [ -z "$extra" ] || { echo "unexpected file: $extra"; exit 1; }
+          branch="intake/issue-$ISSUE"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git switch -c "$branch"
+          git add -A -- "mods/$ID"
+          git commit -m "mods/$ID from issue #$ISSUE"
+          git push origin "$branch"
+          gh pr create --base main --head "$branch" --title "mods/$ID from issue #$ISSUE" \
+            --body "From #$ISSUE by @$AUTHOR. Closes #$ISSUE. @$AUTHOR, please check the files; I review and merge it."
+
+  report:
+    needs: [prepare, pr]
+    if: failure()
+    runs-on: ubuntu-24.04
+    permissions:
+      issues: write
+    steps:
+      - name: Tell the issue that intake failed
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          ISSUE: ${{ github.event.issue.number }}
+          RUN: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          gh issue comment "$ISSUE" --body "This form could not be turned into a pull request: $RUN"

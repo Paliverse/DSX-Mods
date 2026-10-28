@@ -1,0 +1,8 @@
+{
+  "$schema": "../dsx-mod-v1.schema.json",
+  "Diagnostics": true,
+  "Instructions": [
+    {"Type": "TriggerThreshold", "Parameters": [0, 1, 128]},
+    {"Type": "TriggerThreshold", "Parameters": [0, 2, 128]}
+  ]
+}

@@ -1,0 +1,4 @@
+# pip install --require-hashes -r tools/requirements.txt  (CPython 3.12, Linux x64 for CI, Windows x64 locally)
+pillow==13.0.0 \
+    --hash=sha256:42d63be3af4f9b951b199b0a9d23365d37ab14687e6d77b74940432c8515c4ca \
+    --hash=sha256:ff3fe9eb621fbb9db4c4be33ab946f6bac5f98ab50ca8d3260503653656c961b

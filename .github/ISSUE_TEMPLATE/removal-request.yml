@@ -1,0 +1,40 @@
+name: Removal request (rights holders)
+description: You own a cover image, game art, logo or text shown in a listing and want it removed. I remove it promptly.
+title: "Removal: "
+labels: ["removal-request"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Game names, logos and cover art belong to their publishers and owners. The catalog shows them only to identify the game a mod is for; this does not mean they endorse the mod or DSX. If you hold the rights to something shown here and want it gone, tell me below. I remove it promptly, usually the same day: a removal merged into `main` is published at once, and DSX drops it the next time it reads the catalog.
+  - type: input
+    id: listing
+    attributes:
+      label: Which listing
+      description: "The mod's id (its folder in mods/) or its name as DSX shows it."
+    validations:
+      required: true
+  - type: dropdown
+    id: material
+    attributes:
+      label: What to remove
+      options:
+        - The cover image
+        - Text in the listing
+        - The whole listing
+    validations:
+      required: true
+  - type: input
+    id: holder
+    attributes:
+      label: Rights holder
+      description: "Who owns it (for example the publisher), and your relation to them."
+    validations:
+      required: true
+  - type: textarea
+    id: details
+    attributes:
+      label: Details
+      description: "Anything that helps me find it. If you'd rather not post publicly, say so and give a way to reach you."
+    validations:
+      required: false

@@ -1,0 +1,264 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/Paliverse/DSX-Mods/blob/main/schema/catalog.v1.schema.json",
+  "title": "DSX-Mods catalog.json (v1)",
+  "description": "What DSX reads from https://paliverse.github.io/DSX-Mods/v1/catalog.json. Built by tools/catalog.py build on every push to main. Readers ignore fields they do not know; a breaking change publishes v2/ next to v1/.",
+  "type": "object",
+  "required": [
+    "schema",
+    "serial",
+    "generated",
+    "commit",
+    "mods"
+  ],
+  "properties": {
+    "schema": {
+      "const": 1
+    },
+    "serial": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "100 plus the commits on main at build time; only grows. DSX ignores a catalog with a lower serial than its built-in one."
+    },
+    "generated": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Commit time of the build's commit."
+    },
+    "commit": {
+      "type": "string"
+    },
+    "mods": {
+      "type": "array",
+      "description": "In the order mods were added.",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "name",
+          "author",
+          "games",
+          "summary",
+          "description",
+          "links",
+          "features",
+          "transports",
+          "mod_ids",
+          "status",
+          "added",
+          "updated"
+        ],
+        "properties": {
+          "name": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 80,
+            "pattern": "^\\S(.*\\S)?$",
+            "description": "The mod's name."
+          },
+          "author": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "name"
+            ],
+            "properties": {
+              "name": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 60,
+                "pattern": "^[^@\\s](.*\\S)?$",
+                "description": "The author's name without @ (DSX shows @name)."
+              },
+              "url": {
+                "type": "string",
+                "maxLength": 300,
+                "pattern": "^https://[^\\s@/:]+(/[^\\s]*)?$",
+                "description": "https only; the host must be on tools/allowed-hosts.txt (checked by tools/catalog.py)"
+              }
+            }
+          },
+          "games": {
+            "type": "array",
+            "minItems": 1,
+            "maxItems": 10,
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "name"
+              ],
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 100,
+                  "pattern": "^\\S(.*\\S)?$",
+                  "description": "The game's name as stores show it; DSX matches installed games by it (case, \u2122, \u00ae and colons ignored)."
+                },
+                "steam_app_id": {
+                  "type": [
+                    "integer",
+                    "null"
+                  ],
+                  "minimum": 1,
+                  "maximum": 2147483647
+                },
+                "aliases": {
+                  "type": "array",
+                  "maxItems": 10,
+                  "items": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 100,
+                    "pattern": "^\\S(.*\\S)?$",
+                    "description": "Another name the game is listed under."
+                  }
+                }
+              }
+            }
+          },
+          "summary": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 100,
+            "pattern": "^\\S(.*\\S)?$",
+            "description": "One line on what the mod does."
+          },
+          "description": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 2000,
+            "description": "Plain text; line breaks allowed; no HTML or Markdown."
+          },
+          "note": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 160,
+            "pattern": "^\\S(.*\\S)?$",
+            "description": "One requirement or limit, when there is one."
+          },
+          "links": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "home"
+            ],
+            "properties": {
+              "home": {
+                "type": "string",
+                "maxLength": 300,
+                "pattern": "^https://[^\\s@/:]+(/[^\\s]*)?$",
+                "description": "https only; the host must be on tools/allowed-hosts.txt (checked by tools/catalog.py)"
+              },
+              "source": {
+                "type": "string",
+                "maxLength": 300,
+                "pattern": "^https://[^\\s@/:]+(/[^\\s]*)?$",
+                "description": "https only; the host must be on tools/allowed-hosts.txt (checked by tools/catalog.py)"
+              }
+            }
+          },
+          "features": {
+            "type": "array",
+            "minItems": 1,
+            "uniqueItems": true,
+            "items": {
+              "enum": [
+                "triggers",
+                "lights",
+                "rumble",
+                "haptics",
+                "audio",
+                "remap"
+              ]
+            }
+          },
+          "transports": {
+            "type": "array",
+            "minItems": 1,
+            "uniqueItems": true,
+            "items": {
+              "enum": [
+                "udp",
+                "pipe"
+              ]
+            }
+          },
+          "mod_ids": {
+            "type": "array",
+            "maxItems": 10,
+            "uniqueItems": true,
+            "items": {
+              "type": "string",
+              "pattern": "^[A-Za-z0-9._-]{1,64}$"
+            },
+            "description": "The ModId values the mod sends to DSX; unique across the catalog."
+          },
+          "requires": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "dsx": {
+                "type": "string",
+                "pattern": "^\\d+(\\.\\d+){0,3}$"
+              }
+            }
+          },
+          "status": {
+            "enum": [
+              "listed",
+              "deprecated"
+            ]
+          },
+          "reason": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200,
+            "pattern": "^\\S(.*\\S)?$",
+            "description": "Why a deprecated mod is deprecated."
+          },
+          "id": {
+            "type": "string",
+            "pattern": "^[a-z0-9][a-z0-9-]{1,46}[a-z0-9]$"
+          },
+          "cover": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "path",
+              "sha256",
+              "width",
+              "height"
+            ],
+            "properties": {
+              "path": {
+                "type": "string",
+                "pattern": "^covers/[0-9a-f]{64}\\.jpg$"
+              },
+              "sha256": {
+                "type": "string",
+                "pattern": "^[0-9a-f]{64}$"
+              },
+              "width": {
+                "const": 1280
+              },
+              "height": {
+                "const": 720
+              }
+            },
+            "description": "1280x720 JPEG, <= 250 KB, named by its SHA-256; relative to catalog.json."
+          },
+          "added": {
+            "type": "string",
+            "format": "date"
+          },
+          "updated": {
+            "type": "string",
+            "format": "date"
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "$schema": "../../schema/mod.v1.schema.json",
+  "name": "Control DualSense Mod",
+  "author": {
+    "name": "SkyExplosionist"
+  },
+  "games": [
+    {
+      "name": "Control Ultimate Edition",
+      "steam_app_id": 870780
+    }
+  ],
+  "summary": "Adaptive trigger settings for every Service Weapon form.",
+  "description": "A mod for Control Ultimate Edition that adds DualSense adaptive trigger settings for all Service Weapon forms. This mod allows players with a Playstation 5 DualSense controller to play Control Ultimate Edition with adaptive triggers. The adaptive triggers are assigned based on the current weapon form.\n\nThis mod adds the following features:\n- Adaptive Triggers for both L2 and R2 for each weapon form\n- Adaptive triggers get disabled when the player is on an inner Menu or the game is paused",
+  "links": {
+    "home": "https://www.nexusmods.com/control/mods/108"
+  },
+  "features": [
+    "triggers"
+  ],
+  "transports": [
+    "udp"
+  ],
+  "status": "listed"
+}

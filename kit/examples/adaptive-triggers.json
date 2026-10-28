@@ -1,0 +1,8 @@
+{
+  "$schema": "../dsx-mod-v1.schema.json",
+  "Diagnostics": true,
+  "Instructions": [
+    {"Type": "TriggerUpdate", "Parameters": [0, 1, 22, 2, 6, 8]},
+    {"Type": "TriggerUpdate", "Parameters": [0, 2, 26, 8, 8, 8, 8, 8, 0, 0, 0, 8, 8, 10]}
+  ]
+}

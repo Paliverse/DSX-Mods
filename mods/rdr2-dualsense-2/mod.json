@@ -1,0 +1,26 @@
+{
+  "$schema": "../../schema/mod.v1.schema.json",
+  "name": "RDR2 DualSense 2.0 - DSX",
+  "author": {
+    "name": "Shtivi"
+  },
+  "games": [
+    {
+      "name": "Red Dead Redemption 2",
+      "steam_app_id": 1174180
+    }
+  ],
+  "summary": "Triggers for guns, throwables, the bow, lasso and fishing.",
+  "description": "This mod includes:\n- Various adaptive triggers for guns, throwables, bow, lasso, fishing, melee combat, etc. Almost every type of weapon has a unique triggers mode.\n- Health RGB indication: The controller's led will go from green to red as your health gets lower. If overpowered, the led will turn gold, which will start fading out as the effect worns off.\n- Stamina RGB indication: the controller's led has a breathing effect, which will get more frequent as your stamina gets lower. When mounted on a horse, the mod will swhich to display the horse's stamina.\n- Dead Eye RGB indication: when dead eye is activated, the controller's led will turn red. The led will fade out as your dead eye level gets lower.",
+  "links": {
+    "home": "https://www.nexusmods.com/reddeadredemption2/mods/2187"
+  },
+  "features": [
+    "triggers",
+    "lights"
+  ],
+  "transports": [
+    "udp"
+  ],
+  "status": "listed"
+}

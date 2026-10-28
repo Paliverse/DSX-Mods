@@ -1,0 +1,26 @@
+{
+  "$schema": "../../schema/mod.v1.schema.json",
+  "name": "Fallout 4 (F4SE) Mod",
+  "author": {
+    "name": "dvize"
+  },
+  "games": [
+    {
+      "name": "Fallout 4",
+      "steam_app_id": 377160
+    }
+  ],
+  "summary": "Adaptive triggers for weapons.",
+  "description": "This mod includes:\n- Supports Dynamic Adaptive Triggers weapons",
+  "links": {
+    "home": "https://www.nexusmods.com/fallout4/mods/62113/"
+  },
+  "features": [
+    "triggers"
+  ],
+  "transports": [
+    "udp"
+  ],
+  "status": "listed",
+  "note": "Needs Fallout 4 Script Extender (F4SE)."
+}

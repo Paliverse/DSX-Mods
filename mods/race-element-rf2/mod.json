@@ -1,0 +1,25 @@
+{
+  "$schema": "../../schema/mod.v1.schema.json",
+  "name": "rFactor 2 Mod",
+  "author": {
+    "name": "elementfuture"
+  },
+  "games": [
+    {
+      "name": "rFactor 2",
+      "steam_app_id": 365960
+    }
+  ],
+  "summary": "Adaptive triggers that react to braking and traction while driving.",
+  "description": "This mod includes:\n- Supports Dynamic Adaptive Triggers while driving. It allows you to feel under and oversteer during acceleration and braking.",
+  "links": {
+    "home": "https://race.elementfuture.com/guide/DSX"
+  },
+  "features": [
+    "triggers"
+  ],
+  "transports": [
+    "udp"
+  ],
+  "status": "listed"
+}

@@ -1,0 +1,30 @@
+name: Report a listing
+description: A broken link, wrong information, or a mod that should not be listed. Malicious mods can also be reported privately (see SECURITY.md).
+title: "Report: "
+labels: ["report"]
+body:
+  - type: input
+    id: id
+    attributes:
+      label: Mod id or name
+    validations:
+      required: true
+  - type: dropdown
+    id: problem
+    attributes:
+      label: Problem
+      options:
+        - The link is broken
+        - The information is wrong
+        - The mod is malicious or unsafe
+        - Someone else's mod listed under another name
+        - I am the author and want it removed
+        - Something else
+    validations:
+      required: true
+  - type: textarea
+    id: details
+    attributes:
+      label: Details
+    validations:
+      required: true

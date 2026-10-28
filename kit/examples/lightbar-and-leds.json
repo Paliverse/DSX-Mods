@@ -1,0 +1,9 @@
+{
+  "$schema": "../dsx-mod-v1.schema.json",
+  "Diagnostics": true,
+  "Instructions": [
+    {"Type": "RGBUpdate", "Parameters": [0, 255, 64, 0, 255]},
+    {"Type": "PlayerLEDNewRevision", "Parameters": [0, 2]},
+    {"Type": "MicLED", "Parameters": [0, 1]}
+  ]
+}

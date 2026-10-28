@@ -1,0 +1,41 @@
+# Every pull request: the rules, the covers, the links of changed mods, and what the change does in words.
+# pull_request (never pull_request_target): the job gets a read-only token and no secrets, so a pull request
+# that edits this repo's tools can't reach anything.
+name: validate
+
+on:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
+        with:
+          python-version: "3.12"
+      - run: python -m pip install --require-hashes -r tools/requirements.txt
+      - name: Tool self-check
+        run: python tools/catalog.py self-check
+      - name: Rules
+        run: python tools/catalog.py validate
+      - name: What this pull request changes
+        env:
+          BASE: ${{ github.event.pull_request.base.sha }}
+        run: python tools/catalog.py diff "$BASE"
+      - name: Links of the changed mods
+        env:
+          BASE: ${{ github.event.pull_request.base.sha }}
+        run: |
+          mapfile -t ids < <(git diff --name-only "$BASE" HEAD -- mods | cut -d/ -f2 | sort -u)
+          existing=()
+          for id in "${ids[@]}"; do [ -f "mods/$id/mod.json" ] && existing+=("$id"); done
+          if [ ${#existing[@]} -gt 0 ]; then python tools/catalog.py check-links "${existing[@]}"; fi
+      - name: The catalog builds
+        run: python tools/catalog.py build --out _site

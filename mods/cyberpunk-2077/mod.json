@@ -1,0 +1,26 @@
+{
+  "$schema": "../../schema/mod.v1.schema.json",
+  "name": "Cyberpunk 2077 Mod",
+  "author": {
+    "name": "Limai"
+  },
+  "games": [
+    {
+      "name": "Cyberpunk 2077",
+      "steam_app_id": 1091500
+    }
+  ],
+  "summary": "Over 100 trigger effects for weapons and vehicles.",
+  "description": "This mod includes:\n- Over 100 manually configured trigger effects for weapons and vehicles. Even supports 20 modded weapons!\n- Trigger effects for turrets and brandances.\n- Most of the different events and actions of the player affect the Touchpad LED and Player LED.\n- Shows the battery level of your controller right in the game.",
+  "links": {
+    "home": "https://www.nexusmods.com/cyberpunk2077/mods/4156?tab=description"
+  },
+  "features": [
+    "triggers",
+    "lights"
+  ],
+  "transports": [
+    "udp"
+  ],
+  "status": "listed"
+}

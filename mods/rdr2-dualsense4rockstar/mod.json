@@ -1,0 +1,26 @@
+{
+  "$schema": "../../schema/mod.v1.schema.json",
+  "name": "RDR 2 Mod",
+  "author": {
+    "name": "Killface"
+  },
+  "games": [
+    {
+      "name": "Red Dead Redemption 2",
+      "steam_app_id": 1174180
+    }
+  ],
+  "summary": "Adaptive triggers for gun recoil and weapon wear.",
+  "description": "This mod includes:\n- Adds support for the adaptive triggers for gun recoil, degradation, double action, automatic guns, gun cocking\n- Feedback depending on the state, e.g. shooting, reloading, galloping on horse\n- Supports off hand weapons and makes the left/right trigger react accordingly\n- LEDs show current player health, can indicate the stamina and underpowered health core",
+  "links": {
+    "home": "https://github.com/Killface1980/DualSense4Rockstar"
+  },
+  "features": [
+    "triggers",
+    "lights"
+  ],
+  "transports": [
+    "udp"
+  ],
+  "status": "listed"
+}

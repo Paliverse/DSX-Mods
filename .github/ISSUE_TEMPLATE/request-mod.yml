@@ -1,0 +1,24 @@
+name: Request a mod
+description: A game you'd like a DSX mod for, or a DSX mod that is missing from the list.
+title: "Request: "
+labels: ["request"]
+body:
+  - type: input
+    id: game
+    attributes:
+      label: Game
+    validations:
+      required: true
+  - type: input
+    id: mod
+    attributes:
+      label: The mod, if it exists
+      description: Its name and a link to its page.
+    validations:
+      required: false
+  - type: textarea
+    id: why
+    attributes:
+      label: What you'd like it to do
+    validations:
+      required: false

@@ -1,0 +1,26 @@
+{
+  "$schema": "../../schema/mod.v1.schema.json",
+  "name": "WF2_DSX",
+  "author": {
+    "name": "SYSTEMATI0N"
+  },
+  "games": [
+    {
+      "name": "Wreckfest 2",
+      "steam_app_id": null
+    }
+  ],
+  "summary": "Adaptive triggers and light bar for Wreckfest 2.",
+  "description": "This mod includes:\n- Adaptive triggers and lightbar for Wreckfest 2 on a PS5 DualSense, via DSX. Feel the brake firm up, the wheels lock and spin, the road surface buzz through the throttle, and watch the lightbar track your RPM.",
+  "links": {
+    "home": "https://github.com/SYSTEMATI0N/WF2_DSX"
+  },
+  "features": [
+    "triggers",
+    "lights"
+  ],
+  "transports": [
+    "udp"
+  ],
+  "status": "listed"
+}

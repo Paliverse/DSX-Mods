@@ -1,0 +1,12 @@
+# Sites a mod page, source link or author page may point to (the host or any subdomain of it).
+# DSX keeps the same list built in; a link to any other site is dropped there.
+# Only I change this file (.github/CODEOWNERS).
+nexusmods.com
+github.com
+store.steampowered.com
+steamcommunity.com
+moddb.com
+beamng.com
+gitlab.com
+codeberg.org
+race.elementfuture.com

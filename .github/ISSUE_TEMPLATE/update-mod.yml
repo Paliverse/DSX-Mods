@@ -1,0 +1,135 @@
+name: Update my mod
+description: Change your mod's listing. Fill in only what changes.
+title: "Update: "
+labels: ["update"]
+body:
+  - type: input
+    id: id
+    attributes:
+      label: Mod id
+      description: "The mod's folder name in mods/, for example wf2-dsx."
+    validations:
+      required: true
+  - type: input
+    id: name
+    attributes:
+      label: Mod name
+      description: "At most 80 characters."
+    validations:
+      required: false
+  - type: input
+    id: author
+    attributes:
+      label: Author name
+      description: "Without @. At most 60 characters."
+    validations:
+      required: false
+  - type: input
+    id: author_url
+    attributes:
+      label: Author page
+      description: "Optional. https, on an allowed site (tools/allowed-hosts.txt)."
+    validations:
+      required: false
+  - type: textarea
+    id: game
+    attributes:
+      label: Game
+      description: "The game's name as stores show it. One game per line."
+    validations:
+      required: false
+  - type: input
+    id: steam_app_id
+    attributes:
+      label: Steam App ID
+      description: "Optional: the number in the game's store.steampowered.com/app/<number> address."
+    validations:
+      required: false
+  - type: input
+    id: summary
+    attributes:
+      label: Summary
+      description: "One line, at most 100 characters: what the mod does."
+    validations:
+      required: false
+  - type: textarea
+    id: description
+    attributes:
+      label: Description
+      description: "Plain text, at most 2000 characters."
+    validations:
+      required: false
+  - type: input
+    id: note
+    attributes:
+      label: Requirement or limit
+      description: "Optional, one line: for example 'Needs Script Extender.'"
+    validations:
+      required: false
+  - type: input
+    id: home
+    attributes:
+      label: Mod page
+      description: "https link to the mod's page on an allowed site: Nexus Mods, GitHub, Steam, ModDB, BeamNG, GitLab, Codeberg."
+    validations:
+      required: false
+  - type: input
+    id: source
+    attributes:
+      label: Source code
+      description: "Optional https link."
+    validations:
+      required: false
+  - type: checkboxes
+    id: features
+    attributes:
+      label: What it controls
+      options:
+        - label: Adaptive triggers
+        - label: Light bar and LEDs
+        - label: Rumble
+        - label: Haptics
+        - label: Audio
+        - label: Button remapping
+  - type: checkboxes
+    id: transports
+    attributes:
+      label: How it talks to DSX
+      options:
+        - label: UDP
+        - label: Mod pipe
+  - type: input
+    id: mod_ids
+    attributes:
+      label: ModId values
+      description: "Optional: the ModId your mod sends to DSX (see the developer kit). Separate several with commas."
+    validations:
+      required: false
+  - type: textarea
+    id: cover
+    attributes:
+      label: Cover image
+      description: "Optional: drag a picture here (JPEG, PNG, WebP or AVIF, at least 320x180). It is cut to 16:9 around its centre."
+    validations:
+      required: false
+  - type: textarea
+    id: why
+    attributes:
+      label: What changed and why
+    validations:
+      required: false
+  - type: checkboxes
+    id: rules
+    attributes:
+      label: Listing rules
+      options:
+        - label: I am the mod's author or one of its maintainers, or I have the author's permission.
+          required: true
+  - type: checkboxes
+    id: rights
+    attributes:
+      label: Rights
+      description: "Your entry stays yours and your mod keeps its own license. DSX only links to your mod and never hosts it."
+      options:
+        - label: I have the right to submit this text and image, and I'm OK with DSX showing them in the app and in this repository.
+          required: true

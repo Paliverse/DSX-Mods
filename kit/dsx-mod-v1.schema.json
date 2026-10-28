@@ -1,0 +1,345 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:dsx:mod:packet:v1",
+  "title": "DSX mod packet, protocol v1",
+  "description": "One request sent to DSX over UDP (127.0.0.1, default port 6969) or the DSX.Mod.v1 named pipe. See README.md for semantics and the reply format.",
+  "type": "object",
+  "required": ["Instructions"],
+  "properties": {
+    "$schema": {"type": "string"},
+    "Diagnostics": {
+      "type": "boolean",
+      "description": "true asks DSX to add a Diagnostics array to UDP replies. Pipe replies always include it; older DSX versions ignore it."
+    },
+    "ModId": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9._-]{1,64}$",
+      "description": "Optional. Names your mod in DSX (live feed, the game's mod activity)."
+    },
+    "AppId": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 4294967295,
+      "description": "Optional. Steam app id of the game. Haptics audio routing (form 2) needs it."
+    },
+    "Instructions": {"type": "array", "maxItems": 128, "items": {"$ref": "#/$defs/instruction"}}
+  },
+  "$defs": {
+    "controllerIndex": {
+      "type": "integer",
+      "minimum": -1,
+      "description": "Index into the reply's Devices array, or -1 for the controller selected in DSX."
+    },
+    "byte": {"type": "integer", "minimum": 0, "maximum": 255},
+    "instruction": {
+      "type": "object",
+      "required": ["Type"],
+      "properties": {
+        "Type": {
+          "description": "Instruction ordinal or name. DSX also accepts names in any letter case.",
+          "oneOf": [
+            {"type": "integer", "minimum": 0, "maximum": 11},
+            {
+              "enum": [
+                "GetDSXStatus",
+                "TriggerUpdate",
+                "RGBUpdate",
+                "PlayerLED",
+                "TriggerThreshold",
+                "MicLED",
+                "PlayerLEDNewRevision",
+                "ResetToUserSettings",
+                "ToMode",
+                "Rumble",
+                "Haptics",
+                "Audio"
+              ]
+            }
+          ]
+        },
+        "Parameters": {"type": "array", "maxItems": 64, "description": "Parameters[0] is the controller index."}
+      },
+      "allOf": [
+        {
+          "if": {"required": ["Type"], "properties": {"Type": {"enum": [0, "GetDSXStatus"]}}},
+          "then": {"description": "Reply only; changes nothing.", "properties": {"Parameters": {"maxItems": 1}}}
+        },
+        {
+          "if": {"required": ["Type"], "properties": {"Type": {"enum": [1, "TriggerUpdate"]}}},
+          "then": {
+            "description": "Adaptive trigger effect.",
+            "properties": {
+              "Parameters": {
+                "prefixItems": [
+                  {"$ref": "#/$defs/controllerIndex"},
+                  {"type": "integer", "minimum": 1, "maximum": 2, "description": "Trigger: 1 = left, 2 = right."},
+                  {"type": "integer", "minimum": 0, "maximum": 26, "description": "Trigger mode; see README."}
+                ],
+                "items": {"$ref": "#/$defs/byte"},
+                "minItems": 3,
+                "maxItems": 14
+              }
+            },
+            "required": ["Parameters"]
+          }
+        },
+        {
+          "if": {"required": ["Type"], "properties": {"Type": {"enum": [2, "RGBUpdate"]}}},
+          "then": {
+            "description": "Lightbar color.",
+            "properties": {
+              "Parameters": {
+                "prefixItems": [
+                  {"$ref": "#/$defs/controllerIndex"},
+                  {"type": "integer", "minimum": 0, "maximum": 255, "description": "Red."},
+                  {"type": "integer", "minimum": 0, "maximum": 255, "description": "Green."},
+                  {"type": "integer", "minimum": 0, "maximum": 255, "description": "Blue."},
+                  {"type": "integer", "minimum": 0, "maximum": 255, "description": "Brightness; scales the color. Default 255."}
+                ],
+                "minItems": 4,
+                "maxItems": 5
+              }
+            },
+            "required": ["Parameters"]
+          }
+        },
+        {
+          "if": {"required": ["Type"], "properties": {"Type": {"enum": [3, "PlayerLED"]}}},
+          "then": {
+            "description": "Deprecated: use PlayerLEDNewRevision.",
+            "properties": {
+              "Parameters": {
+                "prefixItems": [
+                  {"$ref": "#/$defs/controllerIndex"},
+                  {"type": ["boolean", "integer"], "description": "LED 1 on."},
+                  {"type": ["boolean", "integer"], "description": "LED 2 on."},
+                  {"type": ["boolean", "integer"], "description": "LED 3 on."},
+                  {"type": ["boolean", "integer"], "description": "LED 4 on."},
+                  {"type": ["boolean", "integer"], "description": "LED 5 on."}
+                ],
+                "maxItems": 6
+              }
+            },
+            "required": ["Parameters"]
+          }
+        },
+        {
+          "if": {"required": ["Type"], "properties": {"Type": {"enum": [4, "TriggerThreshold"]}}},
+          "then": {
+            "description": "When the emulated trigger reports pressed.",
+            "properties": {
+              "Parameters": {
+                "prefixItems": [
+                  {"$ref": "#/$defs/controllerIndex"},
+                  {"type": "integer", "minimum": 0, "maximum": 2, "description": "Trigger: 0 = reset both, 1 = left, 2 = right."},
+                  {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 255,
+                    "description": "Press threshold; required unless trigger is 0."
+                  }
+                ],
+                "minItems": 2,
+                "maxItems": 3
+              }
+            },
+            "required": ["Parameters"]
+          }
+        },
+        {
+          "if": {"required": ["Type"], "properties": {"Type": {"enum": [5, "MicLED"]}}},
+          "then": {
+            "description": "Mute button LED.",
+            "properties": {
+              "Parameters": {
+                "prefixItems": [
+                  {"$ref": "#/$defs/controllerIndex"},
+                  {"type": "integer", "minimum": 0, "maximum": 2, "description": "0 = on, 1 = pulse, 2 = off."}
+                ],
+                "minItems": 2,
+                "maxItems": 2
+              }
+            },
+            "required": ["Parameters"]
+          }
+        },
+        {
+          "if": {"required": ["Type"], "properties": {"Type": {"enum": [6, "PlayerLEDNewRevision"]}}},
+          "then": {
+            "description": "Player indicator LEDs.",
+            "properties": {
+              "Parameters": {
+                "prefixItems": [
+                  {"$ref": "#/$defs/controllerIndex"},
+                  {"type": "integer", "minimum": 0, "maximum": 5, "description": "0-4 = player 1-5, 5 = all off."}
+                ],
+                "minItems": 2,
+                "maxItems": 2
+              }
+            },
+            "required": ["Parameters"]
+          }
+        },
+        {
+          "if": {"required": ["Type"], "properties": {"Type": {"enum": [7, "ResetToUserSettings"]}}},
+          "then": {
+            "description": "Drop this mod's output and threshold overrides.",
+            "properties": {"Parameters": {"prefixItems": [{"$ref": "#/$defs/controllerIndex"}], "minItems": 1, "maxItems": 1}},
+            "required": ["Parameters"]
+          }
+        },
+        {
+          "if": {"required": ["Type"], "properties": {"Type": {"enum": [8, "ToMode"]}}},
+          "then": {
+            "description": "Temporarily remap an input.",
+            "properties": {
+              "Parameters": {
+                "prefixItems": [
+                  {"$ref": "#/$defs/controllerIndex"},
+                  {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 3,
+                    "description": "0 = left stick, 1 = right stick, 2 = motion, 3 = touchpad."
+                  },
+                  {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 7,
+                    "description": "Mode; valid values depend on the input, see README."
+                  }
+                ],
+                "minItems": 3,
+                "maxItems": 3
+              }
+            },
+            "required": ["Parameters"]
+          }
+        },
+        {
+          "if": {"required": ["Type"], "properties": {"Type": {"enum": [9, "Rumble"]}}},
+          "then": {
+            "description": "Mod rumble; see rumble.md. Invalid values reject the instruction.",
+            "properties": {
+              "Parameters": {
+                "prefixItems": [
+                  {"$ref": "#/$defs/controllerIndex"},
+                  {"type": "integer", "minimum": 0, "maximum": 255, "description": "Large (left) motor."},
+                  {"type": "integer", "minimum": 0, "maximum": 255, "description": "Small (right) motor."},
+                  {
+                    "type": ["integer", "null"],
+                    "minimum": 1,
+                    "maximum": 5000,
+                    "description": "Duration in ms; omitted or null means 1000."
+                  }
+                ],
+                "items": false,
+                "minItems": 3,
+                "maxItems": 4
+              }
+            },
+            "required": ["Parameters"]
+          }
+        },
+        {
+          "if": {"required": ["Type"], "properties": {"Type": {"enum": [10, "Haptics"]}}},
+          "then": {
+            "description": "Mod haptics; see README.md section 3. Refused with DisabledByUser while the user's mod haptics switch is off (stop is always allowed). Invalid values reject the instruction.",
+            "properties": {
+              "Parameters": {
+                "prefixItems": [
+                  {"$ref": "#/$defs/controllerIndex"},
+                  {"type": "integer", "minimum": 0, "maximum": 2, "description": "Form: 0 stop, 1 preset, 2 audio routing."}
+                ],
+                "minItems": 2,
+                "maxItems": 6
+              }
+            },
+            "required": ["Parameters"],
+            "oneOf": [
+              {"properties": {"Parameters": {"prefixItems": [true, {"const": 0}], "items": false, "maxItems": 2}}},
+              {
+                "properties": {
+                  "Parameters": {
+                    "prefixItems": [
+                      true,
+                      {"const": 1},
+                      {"type": "integer", "minimum": 0, "maximum": 5, "description": "Waveform: 0 sine, 1 square, 2 triangle, 3 sawtooth, 4 white noise, 5 pink noise."},
+                      {"type": "integer", "minimum": 20, "maximum": 500, "description": "Frequency in Hz."},
+                      {"$ref": "#/$defs/byte", "description": "Intensity; 255 is the user's own haptics strength."},
+                      {"type": ["integer", "null"], "minimum": 1, "maximum": 5000, "description": "Duration in ms; omitted or null means 200."}
+                    ],
+                    "items": false,
+                    "minItems": 5,
+                    "maxItems": 6
+                  }
+                }
+              },
+              {
+                "properties": {
+                  "Parameters": {
+                    "prefixItems": [
+                      true,
+                      {"const": 2},
+                      {"type": "integer", "minimum": 1, "maximum": 100, "description": "Gain in percent of the user's haptics strength."},
+                      {"type": "integer", "minimum": 0, "maximum": 2, "description": "Band: 0 full, 1 low, 2 high."}
+                    ],
+                    "items": false,
+                    "minItems": 4,
+                    "maxItems": 4
+                  }
+                }
+              }
+            ]
+          }
+        },
+        {
+          "if": {"required": ["Type"], "properties": {"Type": {"enum": [11, "Audio"]}}},
+          "then": {
+            "description": "Mod speaker sound; see README.md section 3. Refused with DisabledByUser while the user's mod audio switch is off (stop is always allowed). Invalid values reject the instruction.",
+            "properties": {
+              "Parameters": {
+                "prefixItems": [
+                  {"$ref": "#/$defs/controllerIndex"},
+                  {"type": "integer", "minimum": 0, "maximum": 2, "description": "Action: 0 play, 1 stop, 2 volume."}
+                ],
+                "minItems": 2,
+                "maxItems": 5
+              }
+            },
+            "required": ["Parameters"],
+            "oneOf": [
+              {
+                "properties": {
+                  "Parameters": {
+                    "prefixItems": [
+                      true,
+                      {"const": 0},
+                      {"type": "integer", "minimum": 8000, "maximum": 48000, "description": "Sample rate in Hz."},
+                      {"type": "integer", "minimum": 0, "maximum": 100, "description": "Volume; 100 peaks at half of full scale, under the user's speaker volume."},
+                      {"type": "string", "contentEncoding": "base64", "minLength": 4, "maxLength": 43692, "description": "Base64 of signed 16-bit little-endian mono PCM, 2-32768 bytes, even length."}
+                    ],
+                    "items": false,
+                    "minItems": 5,
+                    "maxItems": 5
+                  }
+                }
+              },
+              {"properties": {"Parameters": {"prefixItems": [true, {"const": 1}], "items": false, "maxItems": 2}}},
+              {
+                "properties": {
+                  "Parameters": {
+                    "prefixItems": [true, {"const": 2}, {"type": "integer", "minimum": 0, "maximum": 100, "description": "Volume."}],
+                    "items": false,
+                    "minItems": 3,
+                    "maxItems": 3
+                  }
+                }
+              }
+            ]
+          }
+        }
+      ]
+    }
+  }
+}

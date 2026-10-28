@@ -1,0 +1,26 @@
+{
+  "$schema": "../../schema/mod.v1.schema.json",
+  "name": "BeamNG_DualSense (NEW)",
+  "author": {
+    "name": "Faddix"
+  },
+  "games": [
+    {
+      "name": "BeamNG.Drive",
+      "steam_app_id": 284160
+    }
+  ],
+  "summary": "Throttle and brake feedback that simulates traction loss.",
+  "description": "This mod includes:\n\nAdaptive Triggers\n- Throttle Feedback: Simulates traction loss and wheel slip on the right trigger with automatic gun mode\n- Brake Resistance: Variable resistance with ABS feedback on the left trigger, with simulation for power brakes\n- Dynamic Modes: Trigger behavior adapts based on engine state, clutch engagement, and wheel slip\n\nLED Indicators\n- RPM LED Bar: Real-time RPM visualization using HSV color mapping with rev-limiter flash effects\n- Gear Indicator Lights: Player LEDs show current gear with support for reverse and multi-gear configurations\n\n- Note: Only available on DualSense V1 and Edge models due to hardware limitations\n- Engine Temperature Alerts: Microphone LED indicates overheating with pulse and warning modes\n- Engine Status: Visual feedback for stall conditions and check engine warnings with fade effects",
+  "links": {
+    "home": "https://github.com/faddix/BeamNG_DualSense"
+  },
+  "features": [
+    "triggers",
+    "lights"
+  ],
+  "transports": [
+    "udp"
+  ],
+  "status": "listed"
+}

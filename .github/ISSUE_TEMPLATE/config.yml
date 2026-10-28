@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Report a malicious listing privately
+    url: https://github.com/Paliverse/DSX-Mods/security/advisories/new
+    about: Only I see it.
+  - name: Build a mod for DSX
+    url: https://github.com/Paliverse/DSX-Mods/tree/main/kit
+    about: The developer kit - protocol, schema, examples and a C# client.

@@ -1,0 +1,25 @@
+{
+  "$schema": "../../schema/mod.v1.schema.json",
+  "name": "BeamNG.Drive Mod",
+  "author": {
+    "name": "cbethax"
+  },
+  "games": [
+    {
+      "name": "BeamNG.Drive",
+      "steam_app_id": 284160
+    }
+  ],
+  "summary": "Adaptive triggers that react to braking and traction while driving.",
+  "description": "This mod includes:\n- Supports Dynamic Adaptive Triggers while driving",
+  "links": {
+    "home": "https://www.beamng.com/resources/dsx-dualsense-adaptive-triggers.28759/"
+  },
+  "features": [
+    "triggers"
+  ],
+  "transports": [
+    "udp"
+  ],
+  "status": "listed"
+}

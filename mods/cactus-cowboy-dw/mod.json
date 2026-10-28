@@ -1,0 +1,26 @@
+{
+  "$schema": "../../schema/mod.v1.schema.json",
+  "name": "Cactus Cowboys (DW) Steam Mod",
+  "author": {
+    "name": "Cactus VR Studios"
+  },
+  "games": [
+    {
+      "name": "Cactus Cowboy - Desert Warfare VR",
+      "steam_app_id": 2554800
+    }
+  ],
+  "summary": "Adaptive triggers for PS VR2 Sense controllers.",
+  "description": "This mod includes:\n- Support only for PSVR 2 Sense Controllers\n- Adaptive Trigger effects for various weapons\n\nAbout Game:\nAt an excavation site close to the Bug Land border, a mysterious cave is uncovered when the Bug Army launches a sudden assault. They're after something that is inside the cave, something so precious that it sparks an all-out war.\nStep into the role of Cactus Cowboy, pushing back against the Bug Army and revealing the sinister plans of their leaders.\n\nDive into an action-packed VR experience that will leave an indelible mark on your memory!\n\n\nGame Features:\n- Immersive VR first - person shooter\n- 8h campaign\n- Over 12 unique VR guns with manual reloading\n- Customize your guns with scopes, grips, and lasers\n- Reunite with old friends and confront new foes\n- Discover Cacti Town and visit the gunshop\n- Over 30 weapon skins to unlock.\n- Battles underground, in the air, and on the desert plains.",
+  "links": {
+    "home": "https://store.steampowered.com/app/2554800/"
+  },
+  "features": [
+    "triggers"
+  ],
+  "transports": [
+    "udp"
+  ],
+  "status": "listed",
+  "note": "PS VR2 Sense controllers only."
+}

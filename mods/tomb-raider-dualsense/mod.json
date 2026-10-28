@@ -1,0 +1,27 @@
+{
+  "$schema": "../../schema/mod.v1.schema.json",
+  "name": "Tomb Raider DualSense Mod",
+  "author": {
+    "name": "Jexar20"
+  },
+  "games": [
+    {
+      "name": "Tomb Raider: Game of the Year Edition",
+      "steam_app_id": 203160
+    }
+  ],
+  "summary": "Adaptive triggers and light bar colors that follow Lara's weapons and tools.",
+  "description": "About this mod:\nThis mod adds immersive PS5 DualSense adaptive triggers and LED effects to Tomb Raider GOTY Edition. Tested on the latest versions from Epic Games Store, Steam, and GOG. Trigger resistance and LED colors react to Lara’s weapons and tools. Fully compatible with other Tomb Raider 2013 mods.\n\nMod Features:\n- Adaptive trigger resistance changes with equipped weapons on L2 and R2\n- LED colors change dynamically based on tools/weapons\n- Triggers deactivate during menus and cutscenes, but return during gameplay\n- Smart DSX Detection with fallback and auto-restart\n\nNotes:\n- Single-player only - don’t use in multiplayer to avoid getting banned\n- Works best over Bluetooth\n- Haptic feedback and other native features are only available when using a wired connection.",
+  "links": {
+    "home": "https://www.nexusmods.com/tombraider2013/mods/125"
+  },
+  "features": [
+    "triggers",
+    "lights"
+  ],
+  "transports": [
+    "udp"
+  ],
+  "status": "listed",
+  "note": "Tested with the Steam, Epic Games and GOG versions."
+}

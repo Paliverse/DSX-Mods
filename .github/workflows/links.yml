@@ -1,0 +1,40 @@
+# Weekly: every mod's links. A dead link (404, 410, or the site is gone) opens one issue per mod and
+# mentions its maintainers. Sites that refuse robots (403, 429) are not reported.
+name: links
+
+on:
+  schedule:
+    - cron: "17 6 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  links:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
+        with:
+          python-version: "3.12"
+      - id: links
+        run: python tools/catalog.py check-links || true
+      - name: One issue per mod with a dead link
+        env:
+          GH_TOKEN: ${{ github.token }}
+          DEAD: ${{ steps.links.outputs.dead }}
+        run: |
+          [ -n "$DEAD" ] || exit 0
+          jq -c '.[]' <<<"$DEAD" | while read -r row; do
+            id=$(jq -r .id <<<"$row")
+            title="Dead link: $id"
+            open=$(gh issue list --state open --label dead-link --search "in:title \"$title\"" --json title --jq "map(select(.title == \"$title\")) | length")
+            [ "$open" = "0" ] || continue
+            who=$(jq -r '(.maintainers // []) | map("@" + .) | join(" ")' "mods/$id/mod.json")
+            body=$(jq -r '"`\(.field)` \(.url) answered: \(.verdict)."' <<<"$row")
+            gh issue create --title "$title" --label dead-link --body "$body $who Please update the link with the update form, or tell me the mod is gone."
+          done

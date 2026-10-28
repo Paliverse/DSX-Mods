@@ -1,0 +1,136 @@
+name: Submit a mod
+description: List a mod that works with DSX. Once accepted, a pull request with your mod is opened for you.
+title: "Submit: "
+labels: ["submission"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        DSX shows your mod's name, game, author, summary, note, description, cover and a link to its page. DSX never downloads mods.
+  - type: markdown
+    attributes:
+      value: |
+        **Online games with anti-cheat:** a mod for an online game with anti-cheat may get players banned. Such mods can be listed; the risk is the player's. Say so in the requirement or limit field.
+  - type: input
+    id: name
+    attributes:
+      label: Mod name
+      description: "At most 80 characters."
+    validations:
+      required: true
+  - type: input
+    id: author
+    attributes:
+      label: Author name
+      description: "Without @. At most 60 characters."
+    validations:
+      required: true
+  - type: input
+    id: author_url
+    attributes:
+      label: Author page
+      description: "Optional. https, on an allowed site (tools/allowed-hosts.txt)."
+    validations:
+      required: false
+  - type: textarea
+    id: game
+    attributes:
+      label: Game
+      description: "The game's name as stores show it. One game per line."
+    validations:
+      required: true
+  - type: input
+    id: steam_app_id
+    attributes:
+      label: Steam App ID
+      description: "Optional: the number in the game's store.steampowered.com/app/<number> address."
+    validations:
+      required: false
+  - type: input
+    id: summary
+    attributes:
+      label: Summary
+      description: "One line, at most 100 characters: what the mod does."
+    validations:
+      required: true
+  - type: textarea
+    id: description
+    attributes:
+      label: Description
+      description: "Plain text, at most 2000 characters."
+    validations:
+      required: true
+  - type: input
+    id: note
+    attributes:
+      label: Requirement or limit
+      description: "Optional, one line: for example 'Needs Script Extender.'"
+    validations:
+      required: false
+  - type: input
+    id: home
+    attributes:
+      label: Mod page
+      description: "https link to the mod's page on an allowed site: Nexus Mods, GitHub, Steam, ModDB, BeamNG, GitLab, Codeberg."
+    validations:
+      required: true
+  - type: input
+    id: source
+    attributes:
+      label: Source code
+      description: "Optional https link."
+    validations:
+      required: false
+  - type: checkboxes
+    id: features
+    attributes:
+      label: What it controls
+      options:
+        - label: Adaptive triggers
+        - label: Light bar and LEDs
+        - label: Rumble
+        - label: Haptics
+        - label: Audio
+        - label: Button remapping
+  - type: checkboxes
+    id: transports
+    attributes:
+      label: How it talks to DSX
+      options:
+        - label: UDP
+        - label: Mod pipe
+  - type: input
+    id: mod_ids
+    attributes:
+      label: ModId values
+      description: "Optional: the ModId your mod sends to DSX (see the developer kit). Separate several with commas."
+    validations:
+      required: false
+  - type: textarea
+    id: cover
+    attributes:
+      label: Cover image
+      description: "Optional: drag a picture here (JPEG, PNG, WebP or AVIF, at least 320x180). It is cut to 16:9 around its centre."
+    validations:
+      required: false
+  - type: checkboxes
+    id: rules
+    attributes:
+      label: Listing rules
+      options:
+        - label: The mod works with DSX (it sends data to DSX over UDP or the mod pipe).
+          required: true
+        - label: The mod is free to download.
+          required: true
+        - label: I am the mod's author, or I have the author's permission to list it.
+          required: true
+        - label: The mod page is on an allowed site (Nexus Mods, GitHub, Steam, ModDB, BeamNG, GitLab, Codeberg).
+          required: true
+  - type: checkboxes
+    id: rights
+    attributes:
+      label: Rights
+      description: "Your entry stays yours and your mod keeps its own license. DSX only links to your mod and never hosts it."
+      options:
+        - label: I have the right to submit this text and image, and I'm OK with DSX showing them in the app and in this repository.
+          required: true

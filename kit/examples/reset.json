@@ -1,0 +1,7 @@
+{
+  "$schema": "../dsx-mod-v1.schema.json",
+  "Diagnostics": true,
+  "Instructions": [
+    {"Type": "ResetToUserSettings", "Parameters": [0]}
+  ]
+}

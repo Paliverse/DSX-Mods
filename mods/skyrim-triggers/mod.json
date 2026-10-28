@@ -1,0 +1,25 @@
+{
+  "$schema": "../../schema/mod.v1.schema.json",
+  "name": "Skyrim Mod",
+  "author": {
+    "name": "dvize"
+  },
+  "games": [
+    {
+      "name": "Skyrim",
+      "steam_app_id": 489830
+    }
+  ],
+  "summary": "Trigger effects for every weapon type.",
+  "description": "The following weapon types have trigger support:\n- Hand To Hand\n- One Handed Sword\n- One Handed Dagger\n- One Handed Axe\n- One Handed Mace\n- Two Handed Sword\n- Two Handed Axe Mace\n- Bow\n- Staves (think this is wand)\n- Magic (when you cast spell)\n- Shield\n- Torch\n- Crossbow",
+  "links": {
+    "home": "https://www.nexusmods.com/skyrimspecialedition/mods/66165"
+  },
+  "features": [
+    "triggers"
+  ],
+  "transports": [
+    "udp"
+  ],
+  "status": "listed"
+}

@@ -1,0 +1,26 @@
+{
+  "$schema": "../../schema/mod.v1.schema.json",
+  "name": "Art of Rally Mod",
+  "author": {
+    "name": "Theaninova"
+  },
+  "games": [
+    {
+      "name": "Art of Rally",
+      "steam_app_id": 550320
+    }
+  ],
+  "summary": "Brake and throttle resistance that follows the car.",
+  "description": "This mod includes:\nBrakes:\n- Triggers will get harder the more you get to a full stop\n- As you lock up you'll feel the triggers slip\n- You will feel the triggers slip with ABS\n\nAcceleration:\n- Triggers will get lighter with higher RPM\n- Triggers will slip and vibrate as the car starts slipping\n- LEDs will fade from green to red as you reach max rpm",
+  "links": {
+    "home": "https://github.com/Theaninova/ArtOfRallyDSX"
+  },
+  "features": [
+    "triggers",
+    "lights"
+  ],
+  "transports": [
+    "udp"
+  ],
+  "status": "listed"
+}
